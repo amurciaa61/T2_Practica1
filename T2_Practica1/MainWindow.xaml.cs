@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace T2_Practica1
 {
@@ -22,10 +13,11 @@ namespace T2_Practica1
     public partial class MainWindow : Window
     {
         private int valor;
+        const int VALOR_MAXIMO = 100;
         public int ObtenerNumeroAleatorio()
         {
             Random sem = new Random();
-            return sem.Next(0, 101);
+            return sem.Next(0, VALOR_MAXIMO+1);
         }
         public MainWindow()
         {
@@ -49,6 +41,17 @@ namespace T2_Practica1
             numeroTextBox.Text = "";
             resultadoTextBlock.Text = "";
             valor = ObtenerNumeroAleatorio();
+        }
+
+        private void numeroTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string patron = "^[0-9]{1,3}$";  // de uno a 3 dígitos
+            Regex pat = new Regex(patron);
+            if (pat.IsMatch(numeroTextBox.Text) && int.Parse(numeroTextBox.Text) <= VALOR_MAXIMO)
+                resultadoTextBlock.Text = "";
+            else
+                resultadoTextBlock.Text = "Valores entre 0 y 100";
+                
         }
     }
 }
